@@ -1,0 +1,1119 @@
+NAME-UDIT KHANDELWAL							ASSIGNMENT-34 (FILE HANDLING)
+
+
+
+
+1. Write a C++ program to create a file and print “File created successfully” and throw
+an error if file is not created.
+
+#include<iostream>
+#include<fstream>
+
+using namespace std;
+
+int main()
+{
+    ofstream fout;
+    fout.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::app | ios::in | ios::out);
+    try
+    {
+        if(!fout)
+        {
+            throw exception();
+        }
+        cout<<"file created or opened successfully"<<endl;
+        fout.close();
+    }
+    catch(...)
+    {
+        cout<<"file not created or not opened"<<endl;
+    }
+    return 0;
+}
+
+
+2. Write a C++ program to read a text file and count the number of characters in it.
+
+#include<iostream>
+#include<fstream>
+
+using namespace std;
+
+int main()
+{
+    ifstream fin;
+    fin.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::app | ios::in | ios::out);
+    try
+    {
+        if(!fin)
+        {
+            throw exception();
+        }
+        char ch;
+        int count=0;
+        while(!fin.eof())
+        {
+            fin.get(ch);
+            if(ch==' ' || ch=='\n')
+                continue;
+            count++;
+        }
+        cout<<"Total characters are: "<<count<<endl;
+        fin.close();
+    }
+    catch(...)
+    {
+        cout<<"file not found"<<endl;
+    }
+    return 0;
+}
+
+
+3. Write a C++ program to open an output file 'a.txt' and append data to it.
+
+#include<iostream>
+#include<fstream>
+
+using namespace std;
+
+int main()
+{
+    ofstream fout;
+    string line;
+    fout.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::app | ios::in | ios::out);
+    try
+    {
+        if(!fout)
+        {
+            throw exception();
+        }
+        cout<<"enter data into file: "<<endl;
+        while(fout)
+        {
+            getline(cin,line);
+            if(line=="-1")
+                break;
+            fout<<line;
+            fout<<" ";
+        }
+        fout.close();
+    }
+    catch(...)
+    {
+        cout<<"file not found"<<endl;
+    }
+    return 0;
+}
+
+
+4. Write a program to copy the contents of one text file to another while changing the
+case of every alphabet.
+
+#include<iostream>
+#include<fstream>
+#include<ctype.h>
+
+using namespace std;
+
+int main()
+{
+    ifstream fin;
+    fin.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::app | ios::in | ios::out);
+    try
+    {
+        if(!fin)
+        {
+            throw exception();
+        }
+        char ch;
+        ofstream fout;
+        fout.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling2.txt");
+        if(!fout)
+        {
+            throw exception();
+        }
+        while(!fin.eof())
+        {
+            fin.get(ch);
+            if(islower(ch))
+            {
+                fout<<char(toupper(ch));
+            }
+            else if(isupper(ch))
+            {
+                fout<<char(tolower(ch));
+            }
+            else
+                fout<<ch;
+        }
+        fin.close();
+        fout.close();
+    }
+    catch(...)
+    {
+        cout<<"file not found"<<endl;
+    }
+    return 0;
+}
+
+
+5. Write a C++ program to merge the two files.
+
+#include<iostream>
+#include<fstream>
+#include<ctype.h>
+
+using namespace std;
+
+int main()
+{
+    ifstream fin;
+    fin.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::app | ios::in | ios::out);
+    try
+    {
+        if(!fin)
+        {
+            throw exception();
+        }
+        string line;
+        ofstream fout;
+        fout.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling3.txt",ios::app);
+        if(!fout)
+        {
+            throw exception();
+        }
+        while(!fin.eof())
+        {
+            getline(fin,line);
+            fout<<line;
+        }
+        fin.close();
+        fin.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling2.txt",ios::app | ios::in | ios::out);
+        if(!fin)
+        {
+            throw exception();
+        }
+        while(!fin.eof())
+        {
+            getline(fin,line);
+            fout<<line;
+        }
+        fin.close();
+        fout.close();
+    }
+    catch(...)
+    {
+        cout<<"file not found"<<endl;
+    }
+    return 0;
+}
+
+
+6. Write a C++ program that counts the total number of characters, words and lines in
+the file.
+
+#include<iostream>
+#include<fstream>
+#include<string.h>
+
+using namespace std;
+
+int main()
+{
+    ofstream fout;
+    string line;
+    fout.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::trunc | ios::in | ios::out);
+    cout<<"enter data into file:"<<endl;
+    while(fout)
+    {
+        getline(cin,line);
+        if(line=="-1")
+            break;
+        fout<<line;
+        fout<<endl;
+    }
+    fout.close();
+    ifstream fin;
+    fin.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt");
+    try
+    {
+        if(!fin)
+        {
+            throw exception();
+        }
+        char ch;
+        int countChar=0,countWords=0,countLines=0,lineLength;
+        while(!fin.eof())
+        {
+            fin.get(ch);
+            if(ch!=' ' && ch!='\n')
+                countChar++;
+        }
+        cout<<"Total characters are: "<<countChar<<endl;
+        fin.clear();        //use clear() to avoid eof char for correct implementation of seekg() otherwise seekg() won't work
+        fin.seekg(0,ios::beg);
+        while(!fin.eof())
+        {
+            getline(fin,line);    //take each line without eol (getline takes input untill \n or new line character is not encountered)
+            lineLength=line.length();
+            for(int i=0;i<lineLength;i++)
+            {
+                if(line[i]==' ' && line[i+1]!='  ')
+                    countWords++;
+            }
+            if(line[lineLength-1]!=' ')
+            {
+                countWords++;         //add 1 more for each ending of line(to add last word)
+            }
+            countLines++;
+        }
+        countWords--;         //last endl attached while entering data will create a new line having length=0
+        countLines--;         //last endl attached while entering data will create a new line having length=0
+        cout<<"Total words are: "<<countWords<<endl;
+        cout<<"Total lines are: "<<countLines<<endl;
+        fin.close();
+    }
+    catch(...)
+    {
+        cout<<"file not found"<<endl;
+    }
+    return 0;
+}
+
+
+7. There are 50 records in a file. Each record contains 6-character item-code, 20
+characters for item-name and an integer price. Write a program to read these
+records, arrange them in the descending order of price and write them in the same
+file, overwriting the earlier records.
+
+#include<iostream>
+#include<fstream>
+#include<string.h>
+
+using namespace std;
+
+class Records;
+
+void sortByPrice(Records *r,int n);
+
+class Records
+{
+private:
+    char item_code[6];
+    char item_name[20];
+    int price;
+
+public:
+    void setData()
+    {
+        cout<<"Enter Item Code: ";
+        cin>>item_code;
+        cout<<"Enter Item Name: ";
+        cin>>item_name;
+        cout<<"Enter Item Price: ";
+        cin>>price;
+    }
+
+    void displayData()
+    {
+        cout<<"Item Code: "<<item_code<<endl;
+        cout<<"Item Name: "<<item_name<<endl;
+        cout<<"Price: "<<price<<endl;
+    }
+
+    int getPrice()
+    {
+        return price;
+    }
+
+    Records& operator=(const Records &r)
+    {
+        strcpy(item_code,r.item_code);
+        strcpy(item_name,r.item_code);
+        price=r.price;
+        return *this;
+    }
+
+    friend ofstream& operator<<(ofstream &fout,Records &r);
+
+};
+
+ofstream& operator<<(ofstream &fout,Records &r)
+{
+    fout<<"Item Code: ";
+    fout<<r.item_code;
+    fout<<endl;
+    fout<<"Item Name: ";
+    fout<<r.item_name;
+    fout<<endl;
+    fout<<"Price: ";
+    fout<<r.price;
+    fout<<endl;
+
+    return fout;
+}
+
+void sortByPrice(Records *r,int n)
+{
+    int i=0,j=0;
+    for(i=0;i<n-1;i++)
+    {
+        for(j=0;j<n-i-1;j++)
+        {
+            if(r[j].getPrice()<r[j+1].getPrice())
+            {
+                Records t;
+                t=r[j];
+                r[j]=r[j+1];
+                r[j+1]=t;
+            }
+        }
+    }
+}
+
+int main()
+{
+    int num;
+    cout<<"Enter How many Records to store:";
+    cin>>num;
+    Records item[num];
+    int i=0;
+    for(i=0;i<num;i++)
+    {
+        item[i].setData();
+    }
+    sortByPrice(item,num);
+    ofstream fout;
+    fout.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::app | ios::out | ios::in);
+    try
+    {
+        if(!fout)
+        {
+            throw exception();
+        }
+        for(i=0;i<num;i++)
+        {
+            fout<<item[i];
+        }
+        fout.close();
+        for(i=0;i<num;i++)
+        {
+            item[i].displayData();
+        }
+    }
+    catch(...)
+    {
+        cout<<"FILE NOT FOUND";
+    }
+
+    return 0;
+}
+
+
+8. A file 'Employee.txt' contains empno and empname. Write a C++ program to add and
+read contents of this file and search for an employee whose name is 'XYZ'.
+
+#include<iostream>
+#include<fstream>
+#include<string.h>
+
+using namespace std;
+
+class Employee
+{
+private:
+    char empname[20];
+    int empno;
+
+public:
+    void setData()
+    {
+        cout<<"Enter Employee Name: ";
+        cin>>empname;
+        cout<<"Enter Employee Number: ";
+        cin>>empno;
+    }
+
+    void displayData()
+    {
+        cout<<"Employee Name: "<<empname<<endl;
+        cout<<"Employee Number: "<<empno<<endl;
+    }
+
+    void searchByName(char *n)
+    {
+        ifstream fin;
+        fin.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::app | ios::out | ios::in);
+        try
+        {
+            if(!fin)
+            {
+                throw exception();
+            }
+            int flag=0;
+            while(!fin.eof())
+            {
+                fin>>empname;
+                fin>>empno;
+                if(!strcmp(empname,n))
+                {
+                    displayData();
+                    flag++;
+                    break;
+                }
+            }
+            fin.close();
+            if(flag==0)
+            {
+                cout<<"NO EMPLOYEE FOUND"<<endl;
+            }
+        }
+        catch(...)
+        {
+            cout<<"FILE NOT FOUND"<<endl;
+        }
+    }
+
+    friend ofstream& operator<<(ofstream&,Employee&);
+
+};
+
+ofstream& operator<<(ofstream &fout,Employee &emp)
+{
+    fout<<emp.empname;
+    fout<<endl;
+    fout<<emp.empno;
+    fout<<endl;
+
+    return fout;
+}
+
+int main()
+{
+    int num,i=0;
+    cout<<"Enter How many Employee Details to store: ";
+    cin>>num;
+    Employee e[num];
+    for(i=0;i<num;i++)
+    {
+        e[i].setData();
+    }
+    ofstream fout;
+    fout.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::app | ios::out | ios::in);
+    try
+    {
+        if(!fout)
+        {
+            throw exception();
+        }
+        for(i=0;i<num;i++)
+        {
+            fout<<e[i];
+        }
+        fout.close();
+        char name[20];
+        cout<<"Enter Name you want to search: ";
+        cin>>name;
+        Employee obj;
+        obj.searchByName(name);
+    }
+    catch(...)
+    {
+        cout<<"FILE NOT FOUND"<<endl;
+    }
+
+    return 0;
+}
+
+
+---------------------------------OR----------------------------------------------------- 
+
+
+#include<iostream>
+#include<fstream>
+#include<string.h>
+
+using namespace std;
+
+class Employee
+{
+private:
+    char empname[20];
+    int empno;
+
+public:
+    void setData()
+    {
+        cout<<"Enter Employee Name: ";
+        cin>>empname;
+        cout<<"Enter Employee Number: ";
+        cin>>empno;
+    }
+
+    void displayData()
+    {
+        cout<<"Employee Name: "<<empname<<endl;
+        cout<<"Employee Number: "<<empno<<endl;
+    }
+
+    void setName(char *n)
+    {
+        strcpy(empname,n);
+    }
+
+    void setNo(int n)
+    {
+        empno=n;
+    }
+
+    friend ofstream& operator<<(ofstream&,Employee&);
+
+};
+
+void searchByName(char *n)
+{
+    ifstream fin;
+    char ename[20];
+    int eno;
+    fin.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::app | ios::out | ios::in);
+    try
+    {
+        if(!fin)
+        {
+            throw exception();
+        }
+        int flag=0;
+        while(!fin.eof())
+        {
+            fin>>ename;
+            fin>>eno;
+            if(!strcmp(ename,n))
+            {
+                Employee obj;
+                obj.setName(ename);
+                obj.setNo(eno);
+                obj.displayData();
+                flag++;
+                break;
+            }
+        }
+        fin.close();
+        if(flag==0)
+        {
+            cout<<"NO EMPLOYEE FOUND"<<endl;
+        }
+    }
+    catch(...)
+    {
+        cout<<"FILE NOT FOUND"<<endl;
+    }
+}
+
+ofstream& operator<<(ofstream &fout,Employee &emp)
+{
+    fout<<emp.empname;
+    fout<<endl;
+    fout<<emp.empno;
+    fout<<endl;
+
+    return fout;
+}
+
+int main()
+{
+    int num,i=0;
+    cout<<"Enter How many Employee Details to store: ";
+    cin>>num;
+    Employee e[num];
+    for(i=0;i<num;i++)
+    {
+        e[i].setData();
+    }
+    ofstream fout;
+    fout.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::app | ios::out | ios::in);
+    try
+    {
+        if(!fout)
+        {
+            throw exception();
+        }
+        for(i=0;i<num;i++)
+        {
+            fout<<e[i];
+        }
+        fout.close();
+        char name[20];
+        cout<<"Enter Name you want to search: ";
+        cin>>name;
+        searchByName(name);
+    }
+    catch(...)
+    {
+        cout<<"FILE NOT FOUND"<<endl;
+    }
+
+    return 0;
+}
+
+
+
+9. A company has following details of their employees in the file 'emp.dat'
+a. Emp Id
+b. Emp Name
+c. Emp Address
+d. Emp Dept (Admin/Sales/Production/IT)
+e. Emp Phone
+f. Emp Age
+Write a C++ program to read the above file. Create a new file such as Adm.dat,
+Sal.dat, Pro.dat, IT.dat respectively to store the employee details according to their
+department.
+
+#include<iostream>
+#include<string.h>
+#include<stdio.h>
+#include<cstdlib>
+#include<fstream>
+
+using namespace std;
+char empfile[100]   = "C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt";
+char ITfile[100]    = "C:/Users/udit khandelwal/OneDrive/Desktop/C++/IT.txt";
+char Adminfile[100] = "C:/Users/udit khandelwal/OneDrive/Desktop/C++/Admin.txt";
+char Prodfile[100]  = "C:/Users/udit khandelwal/OneDrive/Desktop/C++/Production.txt";
+char Salesfile[100] = "C:/Users/udit khandelwal/OneDrive/Desktop/C++/Sales.txt";
+
+class emp
+{
+     int empid;
+     char name[30];
+     char address[60];
+     int age;
+     public:
+          char dept[15];
+     void get();
+     char *getdept()
+     {
+          return dept;
+     }
+};
+void emp::get()
+{
+     cout<<"\n Enter Employee Id     :  ";
+     cin>>empid;
+     cout<<"\n Enter Name            :  ";
+     cin>>name;
+     cout<<"\n Enter Address         :  ";
+     cin>>address;
+     cout<<"\n Enter Department Name:(Admin/Sales/IT/Production)  :  ";
+     cin>>dept;
+     cout<<"\n Enter Age   :  ";
+     cin>>age;
+}
+void insert()
+{
+     emp e;
+
+     ofstream fout; //ofstream is a class, fout is its object. It can be used only to write into the file.
+
+     //file is open in the binary, append and nocreate mode.
+     fout.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::in | ios::out | ios::binary | ios::app | ios::ate);
+
+     if (fout.fail())
+     {
+          cout<<"\n Unable to Open the File!!!";
+          goto err;
+     }
+     e.get(); // accepting the details from the user.
+     fout.write((char *)&e,sizeof(e)); //writing into the file with fout object.
+     if(fout.tellp()%sizeof(e)==0)
+     {
+          cout<<"\n Record Inserted !!!"<<endl;
+     }
+     else
+     {
+          cout<<"\n Insertion Failed !!!";
+          goto err;
+     }
+     err:
+          fout.close();
+
+}
+void sort() // This function will insert the record according to department in respective file.
+{
+     emp e;
+     ofstream adm,sal,pro,it; //all files have been created for writing mode.
+     ifstream fin; // fin object belongs to the ifstream class, it is used to read the file contents only.
+     adm.open(Adminfile, ios::out | ios::binary | ios::app);
+     sal.open(Salesfile, ios::out | ios::binary | ios::app);
+     pro.open(Prodfile, ios::out | ios::binary | ios::app);
+     it.open(ITfile, ios::out | ios::binary | ios::app);
+     fin.open(empfile, ios::in | ios::binary);
+     while(fin.read((char *)&e,sizeof(e))) //reading the file contents till it reaches end of file.
+     {
+          if(strcmp(e.getdept(),"Admin")==0)
+          {
+               adm.write((char *)&e,sizeof(e));
+               cout<<"\n Record Inserted into ADMIN File!!!";
+          }
+          else if(strcmp(e.getdept(),"Sales")==0)
+          {
+               sal.write((char *)&e,sizeof(e));
+               cout<<"\n Record Inserted into SALES File!!!";
+          }
+          else if(strcmp(e.getdept(),"IT")==0)
+          {
+               it.write((char *)&e,sizeof(e));
+               cout<<"\n Record Inserted into IT File!!!";
+          }
+          else if(strcmp(e.getdept(),"Production")==0)
+          {
+               pro.write((char *)&e,sizeof(e));
+               cout<<"\n Record Inserted into Production File!!!";
+          }
+          else
+               cout<<"\n Insert Correct Record!!!";
+     }
+     fin.close();
+     adm.close();
+     sal.close();
+     it.close();
+     pro.close();
+}
+int main()
+{
+     int n;
+     cout<<"\n Enter No. of Records You Want? : ";
+     cin>>n;
+     for(int i=0; i<n; i++)
+     {
+          insert();
+     }
+     sort();
+     return 0;
+}
+
+
+-----------------------------OR-------------------------------------------
+
+
+#include<iostream>
+#include<string.h>
+#include<stdio.h>
+#include<cstdlib>
+#include<fstream>
+
+using namespace std;
+char empfile[100]   = "C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt";
+char ITfile[100]    = "C:/Users/udit khandelwal/OneDrive/Desktop/C++/IT.txt";
+char Adminfile[100] = "C:/Users/udit khandelwal/OneDrive/Desktop/C++/Admin.txt";
+char Prodfile[100]  = "C:/Users/udit khandelwal/OneDrive/Desktop/C++/Production.txt";
+char Salesfile[100] = "C:/Users/udit khandelwal/OneDrive/Desktop/C++/Sales.txt";
+
+class emp
+{
+     int empid;
+     char name[30];
+     char address[60];
+     int age;
+     public:
+          char dept[15];
+     void get();
+     char *getdept()
+     {
+          return dept;
+     }
+     void insert();
+     void sort();
+};
+void emp::get()
+{
+     cout<<"\n Enter Employee Id     :  ";
+     cin>>empid;
+     cout<<"\n Enter Name            :  ";
+     cin>>name;
+     cout<<"\n Enter Address         :  ";
+     cin>>address;
+     cout<<"\n Enter Department Name:(Admin/Sales/IT/Production)  :  ";
+     cin>>dept;
+     cout<<"\n Enter Age   :  ";
+     cin>>age;
+}
+void emp::insert()
+{
+
+     ofstream fout; //ofstream is a class, fout is its object. It can be used only to write into the file.
+
+     //file is open in the binary, append and nocreate mode.
+     fout.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::in | ios::out | ios::binary | ios::app | ios::ate);
+
+     if (fout.fail())
+     {
+          cout<<"\n Unable to Open the File!!!";
+          goto err;
+     }
+     this->get(); // accepting the details from the user.
+     fout.write((char *)this,sizeof(*this)); //writing into the file with fout object.
+     if(fout.tellp()%sizeof(*this)==0)
+     {
+          cout<<"\n Record Inserted !!!"<<endl;
+     }
+     else
+     {
+          cout<<"\n Insertion Failed !!!";
+          goto err;
+     }
+     err:
+          fout.close();
+
+}
+void emp::sort() // This function will insert the record according to department in respective file.
+{
+     ofstream adm,sal,pro,it; //all files have been created for writing mode.
+     ifstream fin; // fin object belongs to the ifstream class, it is used to read the file contents only.
+     adm.open(Adminfile, ios::out | ios::binary | ios::app);
+     sal.open(Salesfile, ios::out | ios::binary | ios::app);
+     pro.open(Prodfile, ios::out | ios::binary | ios::app);
+     it.open(ITfile, ios::out | ios::binary | ios::app);
+     fin.open(empfile, ios::in | ios::binary);
+     while(!fin.eof()) //reading the file contents till it reaches end of file.
+     {
+          fin.read((char*)this,sizeof(*this));
+	    if(strcmp(this->getdept(),"Admin")==0)
+          {
+               adm.write((char *)this,sizeof(*this));
+               cout<<"\n Record Inserted into ADMIN File!!!";
+               break;
+          }
+          else if(strcmp(this->getdept(),"Sales")==0)
+          {
+               sal.write((char *)this,sizeof(*this));
+               cout<<"\n Record Inserted into SALES File!!!";
+               break;
+          }
+          else if(strcmp(this->getdept(),"IT")==0)
+          {
+               it.write((char *)this,sizeof(*this));
+               cout<<"\n Record Inserted into IT File!!!";
+               break;
+          }
+          else if(strcmp(this->getdept(),"Production")==0)
+          {
+               pro.write((char *)this,sizeof(*this));
+               cout<<"\n Record Inserted into Production File!!!";
+               break;
+          }
+          else
+          {
+              cout<<"\n Insert Correct Record!!!";
+              break;
+          }
+     }
+     fin.close();
+     adm.close();
+     sal.close();
+     it.close();
+     pro.close();
+}
+int main()
+{
+     int n;
+     cout<<"\n Enter No. of Records You Want? : ";
+     cin>>n;
+     emp e[n];
+     for(int i=0; i<n; i++)
+     {
+          e[i].insert();
+          e[i].sort();
+     }
+
+     return 0;
+}
+
+
+10. Write a C++ program to create a file which has information Name, Account number,
+Balance and perform following operations:
+a. Add record
+b. Display content of file
+c. Display name of person having balance > 10,000
+
+#include<iostream>
+#include<fstream>
+#include<string.h>
+
+using namespace std;
+
+class Info
+{
+    char name[50];
+    int accNo;
+    int balance;
+
+public:
+
+    Info()
+    {
+        strcpy(name,"");
+        accNo=0;
+        balance=0;
+    }
+
+    Info(char *n,int a,int b)
+    {
+        strcpy(name,n);
+        accNo=a;
+        balance=b;
+    }
+
+    void setData()
+    {
+        cin.ignore();
+        cout<<"Enter Name: ";
+        cin.getline(name,49);
+        cout<<"Enter Account Number: ";
+        cin>>accNo;
+        cout<<"Enter Balance: ";
+        cin>>balance;
+    }
+
+    void displayData()
+    {
+        cout<<"Name: "<<name<<endl;
+        cout<<"Account Number: "<<accNo<<endl;
+        cout<<"Balance: "<<balance<<endl;
+    }
+
+    void storeData();
+
+    void showAllData();
+
+    void searchBalance();
+};
+
+void Info::storeData()
+{
+    ofstream fout;
+    fout.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::app | ios::in | ios::out);
+    try
+    {
+        if(!fout)
+        {
+            throw exception();
+        }
+        else
+        {
+            if(!strcmp(name,"") && balance==0 && accNo==0)
+            {
+                throw 'e';
+            }
+            else
+            {
+                fout.write((char*)this,sizeof(*this));
+                cout<<"DATA STORED SUCCESSFULLY"<<endl;
+                fout.close();
+            }
+        }
+    }
+    catch(char c)
+    {
+        cout<<"DATA NOT INITIALISED"<<endl;
+        fout.close();
+    }
+    catch(...)
+    {
+        cout<<"NO FILE FOUND \n DATA NOT STORED "<<endl;
+    }
+}
+
+void Info::showAllData()
+{
+    ifstream fin;
+    fin.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::out | ios::in | ios::app);
+    try
+    {
+        if(!fin)
+        {
+            throw exception();
+        }
+        else
+        {
+            fin.read((char*)this,sizeof(*this));
+            while(!fin.eof())
+            {
+                this->displayData();
+                fin.read((char*)this,sizeof(*this));
+            }
+            fin.close();
+        }
+    }
+    catch(...)
+    {
+        cout<<"NO FILE FOUND"<<endl;
+    }
+}
+
+void Info::searchBalance()
+{
+    ifstream fin;
+    fin.open("C:/Users/udit khandelwal/OneDrive/Desktop/C++/fileHandling.txt",ios::out | ios::in | ios::app);
+    try
+    {
+        if(!fin)
+        {
+            throw exception();
+        }
+        else
+        {
+            int flag=0;
+            fin.read((char*)this,sizeof(*this));
+            while(!fin.eof())
+            {
+                if(this->balance>10000)
+                {
+                   cout<<endl<<"Record having balance greater than 10000"<<endl;
+                   this->displayData();
+                   flag++;
+                   break;
+                }
+                fin.read((char*)this,sizeof(*this));
+            }
+            if(flag==0)
+            {
+                throw 'e';
+            }
+            fin.close();
+        }
+    }
+    catch(char c)
+    {
+        cout<<"NO RECORD FOUND HAVING BALANCE GREATER THAN 10000"<<endl;
+    }
+    catch(...)
+    {
+        cout<<"NO FILE FOUND"<<endl;
+    }
+}
+
+int main()
+{
+    int n;
+    cout<<"Enter How many details to store: ";
+    cin>>n;
+    Info obj[n];
+    for(int i=0;i<n;i++)
+    {
+        obj[i].setData();
+    }
+
+    for(int i=0;i<n;i++)
+    {
+        obj[i].storeData();
+    }
+
+    obj[0].showAllData();
+
+    obj[0].searchBalance();
+
+    return 0;
+}
+
+
+
